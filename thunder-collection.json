@@ -1,0 +1,297 @@
+{
+  "clientName": "Thunder Client",
+  "collectionName": "Portfolio Backend API",
+  "collectionId": "portfolio-backend-api",
+  "dateExported": "2026-02-06",
+  "version": "1.0",
+  "folders": [
+    {
+      "folderId": "health-test",
+      "name": "Health & Test",
+      "requests": []
+    },
+    {
+      "folderId": "skills",
+      "name": "Skills CRUD",
+      "requests": []
+    },
+    {
+      "folderId": "experiences",
+      "name": "Experiences CRUD",
+      "requests": []
+    },
+    {
+      "folderId": "projects",
+      "name": "Projects CRUD",
+      "requests": []
+    },
+    {
+      "folderId": "contact",
+      "name": "Contact Messages",
+      "requests": []
+    },
+    {
+      "folderId": "upload",
+      "name": "Image Upload",
+      "requests": []
+    }
+  ],
+  "requests": [
+    {
+      "folderId": "health-test",
+      "name": "Health Check",
+      "method": "GET",
+      "url": "http://localhost:3000/api/health"
+    },
+    {
+      "folderId": "health-test",
+      "name": "Test Supabase",
+      "method": "GET",
+      "url": "http://localhost:3000/api/test/supabase"
+    },
+    {
+      "folderId": "health-test",
+      "name": "Test Cloudinary",
+      "method": "GET",
+      "url": "http://localhost:3000/api/test/cloudinary"
+    },
+    {
+      "folderId": "skills",
+      "name": "Get All Skills",
+      "method": "GET",
+      "url": "http://localhost:3000/api/skills"
+    },
+    {
+      "folderId": "skills",
+      "name": "Get Skills by Category",
+      "method": "GET",
+      "url": "http://localhost:3000/api/skills?category=Frontend"
+    },
+    {
+      "folderId": "skills",
+      "name": "Get Single Skill",
+      "method": "GET",
+      "url": "http://localhost:3000/api/skills/{{skillId}}"
+    },
+    {
+      "folderId": "skills",
+      "name": "Create Skill",
+      "method": "POST",
+      "url": "http://localhost:3000/api/skills",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Svelte\",\n  \"level\": 75,\n  \"category\": \"Frontend\",\n  \"order_index\": 12,\n  \"is_published\": true\n}"
+      }
+    },
+    {
+      "folderId": "skills",
+      "name": "Update Skill",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/skills/{{skillId}}",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"level\": 85\n}"
+      }
+    },
+    {
+      "folderId": "skills",
+      "name": "Toggle Skill Publish",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/skills/{{skillId}}/toggle-publish"
+    },
+    {
+      "folderId": "skills",
+      "name": "Delete Skill",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/skills/{{skillId}}"
+    },
+    {
+      "folderId": "experiences",
+      "name": "Get All Experiences",
+      "method": "GET",
+      "url": "http://localhost:3000/api/experiences"
+    },
+    {
+      "folderId": "experiences",
+      "name": "Get Single Experience",
+      "method": "GET",
+      "url": "http://localhost:3000/api/experiences/{{experienceId}}"
+    },
+    {
+      "folderId": "experiences",
+      "name": "Create Experience",
+      "method": "POST",
+      "url": "http://localhost:3000/api/experiences",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"role\": \"Senior Developer\",\n  \"company\": \"Tech Corp\",\n  \"period\": \"2024 - Present\",\n  \"description\": [\n    \"Led development team\",\n    \"Improved system performance\"\n  ],\n  \"location\": \"Remote\",\n  \"order_index\": 1,\n  \"is_published\": true\n}"
+      }
+    },
+    {
+      "folderId": "experiences",
+      "name": "Update Experience",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/experiences/{{experienceId}}",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"period\": \"2024 - 2026\"\n}"
+      }
+    },
+    {
+      "folderId": "experiences",
+      "name": "Toggle Experience Publish",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/experiences/{{experienceId}}/toggle-publish"
+    },
+    {
+      "folderId": "experiences",
+      "name": "Delete Experience",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/experiences/{{experienceId}}"
+    },
+    {
+      "folderId": "projects",
+      "name": "Get All Projects",
+      "method": "GET",
+      "url": "http://localhost:3000/api/projects"
+    },
+    {
+      "folderId": "projects",
+      "name": "Get Featured Projects",
+      "method": "GET",
+      "url": "http://localhost:3000/api/projects?featured=true"
+    },
+    {
+      "folderId": "projects",
+      "name": "Get Single Project",
+      "method": "GET",
+      "url": "http://localhost:3000/api/projects/{{projectId}}"
+    },
+    {
+      "folderId": "projects",
+      "name": "Create Project",
+      "method": "POST",
+      "url": "http://localhost:3000/api/projects",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"title\": \"New Project\",\n  \"description\": \"Short description\",\n  \"full_description\": \"Detailed description\",\n  \"my_role\": \"Full-stack developer\",\n  \"image\": \"https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800\",\n  \"tags\": [\"React\", \"Node.js\"],\n  \"status\": \"completed\",\n  \"featured\": true,\n  \"is_published\": true\n}"
+      }
+    },
+    {
+      "folderId": "projects",
+      "name": "Update Project",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/projects/{{projectId}}",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"in-progress\"\n}"
+      }
+    },
+    {
+      "folderId": "projects",
+      "name": "Toggle Project Publish",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/projects/{{projectId}}/toggle-publish"
+    },
+    {
+      "folderId": "projects",
+      "name": "Toggle Project Featured",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/projects/{{projectId}}/toggle-featured"
+    },
+    {
+      "folderId": "projects",
+      "name": "Delete Project",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/projects/{{projectId}}"
+    },
+    {
+      "folderId": "contact",
+      "name": "Get All Messages",
+      "method": "GET",
+      "url": "http://localhost:3000/api/contact"
+    },
+    {
+      "folderId": "contact",
+      "name": "Get Unread Messages",
+      "method": "GET",
+      "url": "http://localhost:3000/api/contact?is_read=false"
+    },
+    {
+      "folderId": "contact",
+      "name": "Get Contact Stats",
+      "method": "GET",
+      "url": "http://localhost:3000/api/contact/stats/summary"
+    },
+    {
+      "folderId": "contact",
+      "name": "Create Contact Message",
+      "method": "POST",
+      "url": "http://localhost:3000/api/contact",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"subject\": \"Project Inquiry\",\n  \"message\": \"I'd like to discuss a project with you.\"\n}"
+      }
+    },
+    {
+      "folderId": "contact",
+      "name": "Mark as Read",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/contact/{{contactId}}/mark-read"
+    },
+    {
+      "folderId": "contact",
+      "name": "Delete Message",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/contact/{{contactId}}"
+    },
+    {
+      "folderId": "upload",
+      "name": "Test Cloudinary",
+      "method": "GET",
+      "url": "http://localhost:3000/api/test/cloudinary"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+### Quick Admin Registration
+### This file helps you quickly create an admin account
+### 1. Install "REST Client" extension in VSCode
+### 2. Modify the username and password below
+### 3. Click "Send Request" above the POST line
+### 4. Copy the token from the response
+
+@baseUrl = http://localhost:3000/api
+
+###############################################################################
+### CREATE ADMIN USER
+###############################################################################
+
+### Register New Admin
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+###
+### ✅ SUCCESS RESPONSE WILL LOOK LIKE:
+# {
+#   "status": "success",
+#   "message": "User registered successfully",
+#   "data": {
+#     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMyIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2...",
+#     "user": {
+#       "id": "123-456-789",
+#       "username": "admin",
+#       "role": "admin"
+#     }
+#   }
+# }
+
+###
+### ❌ ERROR RESPONSE (if user already exists):
+# {
+#   "status": "error",
+#   "message": "Username already taken"
+# }
+
+###############################################################################
+### VERIFY REGISTRATION (Test Login)
+###############################################################################
+
+### Login with New Credentials
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+###
+### Next Steps After Registration:
+### 1. Copy the token from the response above
+### 2. Go to http://localhost:5173/admin
+### 3. Login with your username and password
+### 4. Start managing your portfolio!

@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Skill Upload with Icon</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      button.secondary {
+        background-color: #008cba;
+      }
+      button.secondary:hover {
+        background-color: #007399;
+      }
+      .response {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 4px;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+      .success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+      }
+      .error {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+      }
+      .info {
+        background-color: #d1ecf1;
+        border: 1px solid #bee5eb;
+        color: #0c5460;
+      }
+      .token-status {
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        background-color: #fff3cd;
+        border: 1px solid #ffeaa7;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🎨 Test Skill Upload with Icon</h1>
+
+    <div id="tokenStatus" class="token-status" style="display: none"></div>
+
+    <!-- Login Form -->
+    <div id="loginSection">
+      <h2>1. Login First</h2>
+      <div class="form-group">
+        <label>Username:</label>
+        <input type="text" id="username" value="admin" />
+      </div>
+      <div class="form-group">
+        <label>Password:</label>
+        <input type="password" id="password" value="" />
+      </div>
+      <button onclick="login()">Login</button>
+      <button class="secondary" onclick="register()">Register</button>
+    </div>
+
+    <hr style="margin: 30px 0" />
+
+    <!-- Upload Form -->
+    <div id="uploadSection" style="opacity: 0.5; pointer-events: none">
+      <h2>2. Create Skill with Icon</h2>
+      <form id="skillForm">
+        <div class="form-group">
+          <label>Skill Name:</label>
+          <input type="text" id="name" value="React" required />
+        </div>
+        <div class="form-group">
+          <label>Level (0-100):</label>
+          <input
+            type="number"
+            id="level"
+            value="95"
+            min="0"
+            max="100"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>Category:</label>
+          <select id="category" required>
+            <option value="Frontend">Frontend</option>
+            <option value="Backend">Backend</option>
+            <option value="Tools">Tools</option>
+            <option value="AI">AI</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Icon File:</label>
+          <input type="file" id="icon" accept="image/*" />
+        </div>
+        <div class="form-group">
+          <label>Order Index:</label>
+          <input type="number" id="order_index" value="0" />
+        </div>
+        <button type="button" onclick="refreshToken()">
+          🔄 Refresh Token First
+        </button>
+        <button type="submit" onclick="uploadSkill(event)">
+          📤 Upload Skill
+        </button>
+      </form>
+    </div>
+
+    <div id="response"></div>
+
+    <script>
+      const API_BASE = "http://localhost:3000/api";
+      let token = localStorage.getItem("token");
+
+      // Check token on load
+      if (token) {
+        document.getElementById("uploadSection").style.opacity = "1";
+        document.getElementById("uploadSection").style.pointerEvents = "auto";
+        checkTokenStatus();
+      }
+
+      async function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        try {
+          const response = await fetch(`${API_BASE}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.data.token) {
+            token = data.data.token;
+            localStorage.setItem("token", token);
+            showResponse("Login successful! Token saved.", "success");
+            document.getElementById("uploadSection").style.opacity = "1";
+            document.getElementById("uploadSection").style.pointerEvents =
+              "auto";
+            checkTokenStatus();
+          } else {
+            showResponse(`Login failed: ${data.message}`, "error");
+          }
+        } catch (error) {
+          showResponse(`Error: ${error.message}`, "error");
+        }
+      }
+
+      async function register() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        try {
+          const response = await fetch(`${API_BASE}/auth/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.data.token) {
+            token = data.data.token;
+            localStorage.setItem("token", token);
+            showResponse("Registration successful! Token saved.", "success");
+            document.getElementById("uploadSection").style.opacity = "1";
+            document.getElementById("uploadSection").style.pointerEvents =
+              "auto";
+            checkTokenStatus();
+          } else {
+            showResponse(`Registration failed: ${data.message}`, "error");
+          }
+        } catch (error) {
+          showResponse(`Error: ${error.message}`, "error");
+        }
+      }
+
+      async function refreshToken() {
+        if (!token) {
+          showResponse("Please login first!", "error");
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_BASE}/auth/refresh`, {
+            method: "POST",
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.data.token) {
+            token = data.data.token;
+            localStorage.setItem("token", token);
+            showResponse("Token refreshed successfully!", "success");
+            checkTokenStatus();
+          } else {
+            showResponse(`Token refresh failed: ${data.message}`, "error");
+          }
+        } catch (error) {
+          showResponse(`Error: ${error.message}`, "error");
+        }
+      }
+
+      async function checkTokenStatus() {
+        if (!token) return;
+
+        try {
+          const response = await fetch(`${API_BASE}/auth/verify`, {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          const data = await response.json();
+          const statusDiv = document.getElementById("tokenStatus");
+
+          if (response.ok) {
+            statusDiv.style.display = "block";
+            statusDiv.innerHTML = `✅ Token valid | User: ${data.data.username} | Expires: ${new Date(data.data.expiresAt).toLocaleString()}`;
+            statusDiv.style.backgroundColor = "#d4edda";
+            statusDiv.style.borderColor = "#c3e6cb";
+            statusDiv.style.color = "#155724";
+          } else {
+            statusDiv.style.display = "block";
+            statusDiv.innerHTML = `⚠️ Token invalid or expired. Please login again.`;
+            statusDiv.style.backgroundColor = "#f8d7da";
+            statusDiv.style.borderColor = "#f5c6cb";
+            statusDiv.style.color = "#721c24";
+          }
+        } catch (error) {
+          console.error("Token verification failed:", error);
+        }
+      }
+
+      async function uploadSkill(event) {
+        event.preventDefault();
+
+        if (!token) {
+          showResponse("Please login first!", "error");
+          return;
+        }
+
+        // Refresh token before upload to prevent expiry
+        showResponse("Refreshing token before upload...", "info");
+        await refreshToken();
+
+        const formData = new FormData();
+        formData.append("name", document.getElementById("name").value);
+        formData.append("level", document.getElementById("level").value);
+        formData.append("category", document.getElementById("category").value);
+        formData.append(
+          "order_index",
+          document.getElementById("order_index").value,
+        );
+        formData.append("is_published", "true");
+
+        const iconFile = document.getElementById("icon").files[0];
+        if (iconFile) {
+          formData.append("icon", iconFile);
+        }
+
+        try {
+          showResponse("Uploading skill...", "info");
+
+          const response = await fetch(`${API_BASE}/skills/with-icon`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formData,
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            showResponse(
+              `✅ Success!\n\n${JSON.stringify(data, null, 2)}\n\n` +
+                `Icon URL: ${data.data.icon || "No icon"}`,
+              "success",
+            );
+            // Reset form
+            document.getElementById("skillForm").reset();
+          } else {
+            showResponse(
+              `❌ Upload failed:\n${JSON.stringify(data, null, 2)}`,
+              "error",
+            );
+
+            // If token expired, prompt to login again
+            if (response.status === 401) {
+              document.getElementById("uploadSection").style.opacity = "0.5";
+              document.getElementById("uploadSection").style.pointerEvents =
+                "none";
+              localStorage.removeItem("token");
+              token = null;
+            }
+          }
+
+          // Check for token expiry warning
+          const expiresIn = response.headers.get("X-Token-Expires-In");
+          if (expiresIn) {
+            showResponse(
+              `⚠️ Warning: Token expires in ${expiresIn} seconds. Consider refreshing.`,
+              "info",
+            );
+          }
+        } catch (error) {
+          showResponse(`Error: ${error.message}`, "error");
+        }
+      }
+
+      function showResponse(message, type) {
+        const responseDiv = document.getElementById("response");
+        responseDiv.textContent = message;
+        responseDiv.className = `response ${type}`;
+      }
+    </script>
+  </body>
+</html>
